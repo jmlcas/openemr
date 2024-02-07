@@ -22,10 +22,6 @@ services:
             - OE_PASS=pass
         depends_on:
             - mysql
-        networks:
-            - mynet
-
-services:
 
     mysql:
         image: mariadb
@@ -37,10 +33,7 @@ services:
             - ./db_volume:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
-        networks:
-            - mynet
 
-services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: phpmyadmin
@@ -49,8 +42,7 @@ services:
         restart: unless-stopped
         environment:
             - PMA_HOST=mysql
-        networks:
-            - mynet
+
 
 
 
