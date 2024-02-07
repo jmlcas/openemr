@@ -1,41 +1,39 @@
-version: '3.3'
+version: '3.1'
 
 services:
 
-    openemr:
-        image: openemr/openemr:7.0.2
-        container_name: openemr
-        ports:
-            - "8200:80"
-            - "8243:443"
-        restart: unless-stopped
-        volumes:
-            - ./log_volume:/var/log
-            - ./site_volume:/var/www/localhost/htdocs/openemr/sites
-        environment:
-            - MYSQL_HOST=mysql
-            - MYSQL_ROOT_PASS=root
-            - OE_USER=admin
-            - OE_PASS=pass
-        depends_on:
-            - mysql
-
-    mysql:
-        image: mariadb:10.11
-        container_name: mysql
-        command: ['mysqld','--character-set-server=utf8mb4']
-        restart: unless-stopped
-        volumes:
-            - ./db_volume:/var/lib/mysql
-        environment:
-            - MYSQL_ROOT_PASSWORD=root
-
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin
-        ports:
-            - "8080:80"
-        restart: unless-stopped
-        environment:
-            - PMA_HOST=mysql
+  mysql:   
+    image: mariadb:10.11
+    container_name: mysql
+    restart: unless-stopped
+    command: ['mysqld','--character-set-server=utf8mb4']
+    volumes:
+      - databasevolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      
+  openemr:
+    image: openemr/openemr:7.0.2
+    container_name: openemr
+    restart: unless-stopped
+    ports:
+      - "8200:80"
+      - "8443:443"
+    volumes:
+      - logvolume01:/var/log
+      - sitevolume:/var/www/localhost/htdocs/openemr/sites
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: openemr
+      MYSQL_PASS: openemr
+      OE_USER: admin
+      OE_PASS: pass
+    depends_on:
+      - mysql
+      
+volumes:
+  logvolume01: {}
+  sitevolume: {}
+  databasevolume: {}
 
