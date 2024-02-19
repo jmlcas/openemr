@@ -6,6 +6,8 @@ services:
     image: mariadb:10.11
     container_name: mysql
     restart: unless-stopped
+    ports:
+      - "3306:3306"    
     command: ['mysqld','--character-set-server=utf8mb4']
     volumes:
       - databasevolume:/var/lib/mysql
