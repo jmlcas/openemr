@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     command: ['mysqld','--character-set-server=utf8mb4']
     volumes:
-      - ./databasevolume:/var/lib/mysql
+      - databasevolume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       
@@ -42,4 +42,4 @@ services:
       
 volumes:
   htdocs: {}
-
+  databasevolume: {}
